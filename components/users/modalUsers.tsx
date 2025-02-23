@@ -9,7 +9,7 @@ type Props = {
     onClose: () => void;
 }
 
-export function ModalEmployees({
+export function ModalUsers({
     // note,
     open,
     // onSave,
