@@ -4,65 +4,66 @@ import { StyleSheet, View, Alert, TextInput, Button, Text, Pressable } from 'rea
 import { TouchableOpacity } from 'react-native'
 import { signOut, updateProfile, User } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
-import { db } from '@/lib/firebase'// Your Firebase initialization
+import { firebase_db } from '@/lib/firebase' // Your Firebase initialization
 import { Link } from 'expo-router'
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { HoverEffect } from 'react-native-gesture-handler'
 
+
 export function ProfileView() {
     const [loading, setLoading] = useState(true)
     const [name, setName] = useState('')
-    const [website, setWebsite] = useState('')
-    const [avatarUrl, setAvatarUrl] = useState('')
     const [user, setUser] = useState<User | null>(null)
 
     const logout = () => {
         signOut(auth)
     }
 
+    /*     if (user) {
+        // El usuario está autenticado
+        console.log("Usuario autenticado:", user.uid); // UID del usuario
+        console.log("Email del usuario:", user.email); // Email del usuario (si está disponible)
+        console.log("Nombre del usuario autenticado: ", user.displayName);
+        
+        // ... otras propiedades del usuario (displayName, photoURL, etc.) ...
+    
+        // Ahora puedes usar el UID (user.uid) para acceder a la información del usuario en tu base de datos (Firestore, Realtime Database, etc.)
+        } else {
+        // El usuario no está autenticado
+        console.log("Usuario no autenticado");
+        } */
 
-    async function getUserDocumentId(email: string) {
-        try {
-            const usersRef = collection(db, 'users'); // Nombre de tu colección en Firestore
-            const q = query(usersRef, where('email', '==', email));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                const userDoc = querySnapshot.docs[0]; // Tomamos el primer documento que coincida
-                return userDoc.id;
-            } else {
-                throw new Error('No se encontró el usuario en Firestore');
+    /*     async function getUserDocumentId(email: string) {
+            try {
+                const usersRef = collection(firebase_db, 'users'); // Nombre de tu colección en Firestore
+                const q = query(usersRef, where('email', '==', email));
+                const querySnapshot = await getDocs(q);
+    
+                if (!querySnapshot.empty) {
+                    const userDoc = querySnapshot.docs[0]; // Tomamos el primer documento que coincida
+                    return userDoc.id;
+                } else {
+                    throw new Error('No se encontró el usuario en Firestore');
+                }
+            } catch (error) {
+                console.error('Error buscando el documento:', error);
+                return null;
             }
-        } catch (error) {
-            console.error('Error buscando el documento:', error);
-            return null;
-        }
-    }
+        } */
 
     const saveProfile = async () => {
         if (!auth.currentUser) return;
-
         try {
             await updateProfile(auth.currentUser, {
                 displayName: name,
-                photoURL: "https://example.com/jane-q-user/profile.jpg"
+                photoURL: "https://example.com/jane-q-user/profile.jpg",
             });
+            Alert.alert("Datos actualizados correctamente")
 
-            const documentId = await getUserDocumentId(auth.currentUser.email!); // Buscamos el ID del documento en Firestore
-
-            if (documentId) {
-                await updateDoc(doc(db, 'users', documentId), {
-                    displayName: name
-                });
-                Alert.alert("Perfil actualizado correctamente");
-            } else {
-                Alert.alert("No se encontró el usuario en Firestore");
-            }
         } catch (error) {
             Alert.alert(`Error: ${error}`);
         }
     };
-
 
     //obtener la informacion del usuario
     useEffect(() => {
@@ -170,10 +171,10 @@ const styles = StyleSheet.create(
             fontSize: 18,
             fontFamily: "monospace",
             color: "gray"
-        },
-        contentBotones:{
-            justifyContent:"center",
-            alignItems:"center",
+        },  
+        contentBotones: {
+            justifyContent: "center",
+            alignItems: "center",
         },
         orientacionBotones: {
             display: "flex",
@@ -184,7 +185,7 @@ const styles = StyleSheet.create(
             height: "auto",
             padding: 5,
             marginTop: 15,
-            marginBottom:15,
+            marginBottom: 15,
         },
         botones: {
             width: "48%",
@@ -211,16 +212,16 @@ const styles = StyleSheet.create(
             height: "auto",
             padding: 5,
             borderBottomWidth: 2,
-            borderBottomColor:"gray",
+            borderBottomColor: "gray",
             textAlign: "center",
             // backgroundColor: "rgba(126, 160, 252, 0.76)",
         },
-        textButton:{
+        textButton: {
             fontSize: 12,
             fontWeight: "bold",
             textAlign: "center",
             color: "blue",
-            
+
         },
     }
 )

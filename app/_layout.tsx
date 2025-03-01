@@ -42,11 +42,21 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer>
+      <Drawer
+        screenOptions={{
+          drawerStyle: { backgroundColor: '#1E1E1E' },
+          drawerLabelStyle: { color: 'white' },
+          drawerActiveTintColor: '#FFA500',
+          drawerInactiveTintColor: '#FFFFFF',
+          headerStyle: { backgroundColor: '#222222' },
+          headerTintColor: 'white',
+        }}
+      >
+
         <Drawer.Screen
-          name="(home)"
+          name="index"
           options={{
-            drawerLabel: 'Inicio',
+            drawerLabel: 'Menú',
             title: 'Inicio',
             drawerIcon: ({ color }) => (
               <MaterialIcons size={28} name="home" color={color} />
@@ -55,12 +65,31 @@ export default function Layout() {
         />
 
         <Drawer.Screen
-          name="(user)"
+          name="(home)"
+          options={{
+            title: "Inicio",
+            drawerItemStyle: { display: 'none' }
+          }}
+        />
+
+        <Drawer.Screen
+          name="(logs)/index"
           options={{
             drawerLabel: 'Registro de casillero',
             title: 'Registro de casillero',
             drawerIcon: ({ color }) => (
               <MaterialIcons size={28} name="assignment" color={color} />
+            ),
+          }}
+        />
+
+        <Drawer.Screen
+          name="(logs)/homeUnlock"
+          options={{
+            drawerLabel: 'Desbloquear casillero',
+            title: 'Desbloquear casillero',
+            drawerIcon: ({ color }) => (
+              <MaterialIcons size={28} name="lock-open" color={color} />
             ),
           }}
         />
@@ -89,26 +118,6 @@ export default function Layout() {
           options={{
             title: "Cambiar contraseña",
             drawerItemStyle: { display: 'none' }
-          }}
-        />
-        <Drawer.Screen
-          name="change/index"
-          options={{
-            drawerItemStyle: { display: 'none' }
-          }}
-        />
-        <Drawer.Screen
-          name="changes/changePasswordHome"
-          options={{
-            drawerItemStyle: { display: 'none' }
-          }}
-        />
-
-        <Drawer.Screen
-          name="index"
-          options={{
-            title: "Inicio de sesión",
-            drawerItemStyle: { display: 'none' },
           }}
         />
 

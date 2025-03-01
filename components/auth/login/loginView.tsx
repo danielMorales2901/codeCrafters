@@ -1,13 +1,11 @@
-import { router, useRouter } from "expo-router";
-import { AppState, Alert, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from "react-native";
+import { Link, router, useRouter } from "expo-router";
+import { AppState, Alert, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Button, Pressable } from "react-native";
 import React, { useState } from 'react'
-import { auth } from "@/lib/firebase";
+import { auth, firebase_db } from "@/lib/firebase";
 import { signInWithEmailAndPassword, User } from "firebase/auth";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 
 export function LoginView() {
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -18,7 +16,7 @@ export function LoginView() {
     email: email,
   };
   // Get a reference to a collection (replace 'yourCollection' with your collection name)
-  const usersRef = collection(db, 'users');
+  const usersRef = collection(firebase_db, 'users');
 
   async function signInWithEmail() {
     try {
@@ -31,19 +29,10 @@ export function LoginView() {
         return;
       }
 
-      // Verificar si el usuario ya está en Firestore
-      const q = query(usersRef, where("email", "==", email));
-      const querySnapshot = await getDocs(q);
 
-      if (querySnapshot.empty) {
-        // Si no existe en Firestore, lo agregamos
-        await addDoc(usersRef, { email: email, uid: user.uid, displayName: user.displayName || "" });
-        console.log("Usuario agregado a la colección 'users'");
-
-      } else {
-        console.log("El usuario ya existe en la colección 'users'");
-      }
       Alert.alert("Datos correctos, bienvenido")
+      setEmail("")
+      setPassword("");
       router.replace("/(home)")
 
     } catch (error) {
@@ -52,15 +41,7 @@ export function LoginView() {
     } finally {
       setLoading(false);
     }
-
   }
-
-
-
-
-
-
-
 
   return (
     <ImageBackground style={styles.content} resizeMode="cover" source={require("../../../assets/images/fondoIniSes.jpeg")}>
@@ -91,6 +72,11 @@ export function LoginView() {
               placeholder="Password"
               autoCapitalize={'none'}
             />
+            <Link href="/changePass/change" asChild>
+              <Pressable >
+                <Text style={styles.recuperar}>¿Olvidaste tu contraseña?</Text>
+              </Pressable>
+            </Link>
           </View>
         </View>
         <View style={styles.apartado}>
@@ -100,7 +86,6 @@ export function LoginView() {
         </View>
       </View>
     </ImageBackground>
-
   );
 }
 
@@ -111,7 +96,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
-
   },
   container: {
     marginTop: 40,
@@ -131,7 +115,6 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-
     gap: 50,
   },
   input: {
@@ -162,6 +145,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "monospace",
     color: "white"
+  },
+  recuperar:{
+    textAlign:"center",
+    fontSize:10,
+    fontFamily:"monospace",
+    color:"blue",
+    borderBottomColor:"blue",
+    borderBottomWidth:0.2,
+    marginTop:8
   },
   botonIniSes: {
     width: 200,

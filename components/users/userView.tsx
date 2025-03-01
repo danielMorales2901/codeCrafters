@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, SafeAreaView, Alert } from "react-native";
 import { getAuth, User } from "firebase/auth";
 import { getDocs, collection } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { firebase_db } from "@/lib/firebase";
 
 export default function UserView() {
     const [usuarios, setUsuarios] = useState<User[]>([]);
@@ -10,7 +10,7 @@ export default function UserView() {
 
     async function getAllDocs(): Promise<User[]> {
         try {
-            const usersRef = collection(db, "users");
+            const usersRef = collection(firebase_db, "users");
             const querySnapshot = await getDocs(usersRef);
             const users: User[] = querySnapshot.docs.map((doc) => ({
                 uid: doc.id,
