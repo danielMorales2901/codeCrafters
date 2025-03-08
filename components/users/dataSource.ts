@@ -1,7 +1,7 @@
 import { Alert } from "react-native";
 import { getFirestore, doc, getDoc, collection, getDocs, SetOptions, setDoc } from "firebase/firestore";
 import { User } from "firebase/auth";
-import { db } from "@/lib/firebase";
+import { firebase_db } from "@/lib/firebase";
 
 
 //dataSource.ts
@@ -13,7 +13,7 @@ export class DataSource {
     }
 
     async getUserData(uid: string) {
-        const userDocRef = doc(db, "users", uid);
+        const userDocRef = doc(firebase_db, "users", uid);
         const docSnap = await getDoc(userDocRef);
         if (docSnap.exists()) {
             return docSnap.data();
@@ -25,7 +25,7 @@ export class DataSource {
 
     async getAllDocs(): Promise<User[]> {
         try {
-            const usersRef = collection(db, "users");
+            const usersRef = collection(firebase_db, "users");
             const querySnapshot = await getDocs(usersRef);
             const users: User[] = querySnapshot.docs.map((doc) => ({
                 uid: doc.id,
@@ -42,7 +42,7 @@ export class DataSource {
 
     async updateDocumentMerge(documentId: string, updatedData: any) {
         try {
-            const documentRef = doc(db, 'users', documentId);
+            const documentRef = doc(firebase_db, 'users', documentId);
             const options: SetOptions = { merge: true };
             await setDoc(documentRef, updatedData, options);
             console.log('Document updated successfully!');

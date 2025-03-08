@@ -27,13 +27,12 @@ export function LoginView() {
       if (!user) {
         Alert.alert("Error", "No se pudo autenticar el usuario.");
         return;
-      }
-
+      }     
 
       Alert.alert("Datos correctos, bienvenido")
       setEmail("")
       setPassword("");
-      router.replace("/(home)")
+      router.replace("/(home)/homeScreen")
 
     } catch (error) {
       console.log(`Error ${error}`);

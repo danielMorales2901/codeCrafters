@@ -7,7 +7,6 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useFonts } from "expo-font";
 
-
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
@@ -16,20 +15,24 @@ export default function Layout() {
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')
-  })
+  });
 
+  // Monitorear el estado de autenticación
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (userData) => {
-      setUser(userData)
+      setUser(userData);
     });
     return unsubscribe;
   }, []);
 
+  // Ocultar el SplashScreen cuando las fuentes estén cargadas
   useEffect(() => {
-    if (loaded)
+    if (loaded) {
       SplashScreen.hideAsync();
+    }
   }, [loaded]);
 
+  // Redirigir al login si no hay usuario
   useEffect(() => {
     if (loaded && !user) {
       router.replace("/auth/login");
@@ -40,6 +43,21 @@ export default function Layout() {
     return null;
   }
 
+  // Si no hay usuario, devolver solo un Stack sin el Drawer
+  if (!user) {
+    return (
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: '#222222' },
+          headerTintColor: 'white',
+        }}
+      >
+        <Stack.Screen name="auth/login" options={{ title: "Inicio de sesión" }} />
+      </Stack>
+    );
+  }
+
+  // Si hay usuario, mostrar el Drawer
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
@@ -54,24 +72,15 @@ export default function Layout() {
       >
 
         <Drawer.Screen
-          name="index"
+          name="(home)/homeScreen"
           options={{
             drawerLabel: 'Menú',
-            title: 'Inicio',
+            title: 'Menú',
             drawerIcon: ({ color }) => (
               <MaterialIcons size={28} name="home" color={color} />
             ),
           }}
         />
-
-        <Drawer.Screen
-          name="(home)"
-          options={{
-            title: "Inicio",
-            drawerItemStyle: { display: 'none' }
-          }}
-        />
-
         <Drawer.Screen
           name="(logs)/index"
           options={{
@@ -82,7 +91,6 @@ export default function Layout() {
             ),
           }}
         />
-
         <Drawer.Screen
           name="(logs)/homeUnlock"
           options={{
@@ -93,7 +101,6 @@ export default function Layout() {
             ),
           }}
         />
-
         <Drawer.Screen
           name="auth/profile"
           options={{
@@ -104,7 +111,6 @@ export default function Layout() {
             ),
           }}
         />
-
         <Drawer.Screen
           name="auth/login"
           options={{
@@ -112,7 +118,6 @@ export default function Layout() {
             drawerItemStyle: { display: 'none' }
           }}
         />
-
         <Drawer.Screen
           name="changePass/change"
           options={{
@@ -120,7 +125,6 @@ export default function Layout() {
             drawerItemStyle: { display: 'none' }
           }}
         />
-
         <Drawer.Screen
           name="+not-found"
           options={{
@@ -132,5 +136,3 @@ export default function Layout() {
     </GestureHandlerRootView>
   );
 }
-
-

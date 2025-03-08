@@ -1,14 +1,10 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { auth, firebase_db } from '@/lib/firebase'
 import { addDoc, collection } from "firebase/firestore";
 import { LogType } from "../entities/log";
 import { useState } from "react";
 
 export function Unlock() {
-    const hola = (hola: string) => {
-        Alert.alert("ESTO DEBE SER UN LOG DE USUARIO: ", auth.currentUser?.displayName || hola || "");
-    }
-
     const [user, setUser] = useState<LogType | null>(null)
 
     const date = new Date();
@@ -35,13 +31,19 @@ export function Unlock() {
                 <View style={styles.contentTitle}>
                     <Text style={styles.title}>Desbloquear casillero remotamente</Text>
                 </View>
+                <Image 
+                    source={{ uri: "https://imgs.search.brave.com/w7jWaDxDWTrbQ4bMABdrfdnWhQzHVl6TbuTTxlH2mkc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/dmVjdG9yLXByZW1p/dW0vcGVyc29uYS1t/b2NoaWxhLXBpZS1m/cmVudGUtY2FzaWxs/ZXJvLXBlcnNvbmEt/cGllLWRlbGFudGUt/ZWxsb3NfMTAxODM5/NS0yNDU5LmpwZz9z/ZW10PWFpc19oeWJy/aWQ" }} 
+                    style={styles.image} 
+                />
                 <View style={{ alignItems: "center" }}>
                     <View style={{ gap: 7 }}>
-                        <Text style={styles.text}>Al ejecutar esta acción, el casillero se abrirá. Es tu responsabilidad asegurarte de la seguridad de tus pertenencias. No nos hacemos responsables por pérdidas, daños o cualquier otro inconveniente.</Text>
+                        <Text style={styles.text}></Text>
                         <Text style={styles.text}>🔹Asegúrate de estar presente al desbloquear.</Text>
+                        <Text style={[styles.text]}>🔹Colocate frente a tu casillero para no interferir con los demas usuarios.</Text>
+                        
                     </View>
                     <TouchableOpacity onPress={() => agregarDatos()} style={styles.boton}>
-                        <Text style={styles.text}>Desbloquear</Text>
+                        <Text style={styles.text}> Desbloquear </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -60,7 +62,7 @@ const styles = StyleSheet.create(
         },
         spcae: {
             width: "90%",
-            height: "60%",
+            height: "75%",
             borderRadius: 16,
             borderWidth: 2,
             padding: 15,
@@ -71,7 +73,6 @@ const styles = StyleSheet.create(
         contentTitle: {
             width: "auto",
             height: "20%",
-
         },
         title: {
             fontSize: 22,
@@ -81,10 +82,9 @@ const styles = StyleSheet.create(
         text: {
             fontSize: 14,
             fontFamily: "monospace",
-
         },
         boton: {
-            width: "48%",
+            width: "60%",
             height: "auto",
             padding: 7,
             justifyContent: "center",
@@ -93,6 +93,13 @@ const styles = StyleSheet.create(
             borderWidth: 2,
             backgroundColor: "rgb(255, 0, 0)",
             marginTop: 20
+        },
+        image: {
+            width: 150, 
+            height: 150,
+            borderRadius: 100,
+            resizeMode: "contain", 
+            marginBottom: 10, // Espacio entre la imagen y el texto
         },
     }
 );

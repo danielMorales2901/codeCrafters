@@ -13,27 +13,28 @@ export function HomeView() {
           />
         </View>
         <View style={styles.contentBotones}>
-          <View>
-            <Link href="/(logs)" asChild>
-              <Pressable style={styles.button}>
-                <Text style={styles.textButton}>Registros</Text>
-              </Pressable>
-            </Link>
-          </View>
-          <View>
-            <Link href="../auth/profile" asChild>
-              <Pressable style={styles.button}>
-                <Text style={styles.textButton}>Perfil</Text>
-              </Pressable>
-            </Link>
-          </View>
 
+
+          <Link href="/(logs)" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.textButton}>Registros</Text>
+            </Pressable>
+          </Link>
 
           <Link href="/(logs)/homeUnlock" asChild>
             <Pressable style={styles.button}>
-              <Text style={styles.textButton}>Abrir casillero</Text>
+              <Text style={styles.textButton}>Desbloquear</Text>
             </Pressable>
           </Link>
+
+          <Link href="../auth/profile" asChild>
+            <Pressable style={styles.button}>
+              <Text style={styles.textButton}>Perfil</Text>
+            </Pressable>
+          </Link>
+
+
+
         </View>
       </View>
     </ImageBackground>
@@ -57,8 +58,11 @@ const styles = StyleSheet.create({
   },
   centerTitle: {
     width: "100%",
+    height: "50%",
     alignItems: "center",
-    justifyContent: "space-evenly"
+    justifyContent: "center",
+    gap: 10,
+    marginBottom: 20,
   },
   title: {
     fontSize: 26,
@@ -72,8 +76,9 @@ const styles = StyleSheet.create({
   },
   contentBotones: {
     width: "80%",
-    height: "30%",
+    height: "40%",
     alignItems: "center",
+    justifyContent: "space-evenly"
   },
   textButton: {
     fontSize: 18,

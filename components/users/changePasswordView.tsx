@@ -13,7 +13,6 @@ export function ChangePasswordView() {
             .then(() => {
                 Alert.alert("Éxito", "Se envió un correo de restablecimiento de contraseña.");
                 setEmail("")
-
             })
             .catch((error) => {
                 Alert.alert("Error", error.message);
