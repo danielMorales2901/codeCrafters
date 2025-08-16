@@ -3,7 +3,8 @@ import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from "react
 
 export function HomeView() {
   return (
-    <ImageBackground style={styles.background} resizeMode="cover" source={require("../../assets/images/fondoHome.jpg")}>
+    // <ImageBackground style={styles.background} resizeMode="cover" source={require("../../assets/images/fondoHome.jpg")}>
+    <View style={styles.background}>
       <View style={styles.content}>
         <View style={styles.centerTitle}>
           <Text style={styles.title}>Menú</Text>
@@ -37,14 +38,15 @@ export function HomeView() {
 
         </View>
       </View>
-    </ImageBackground>
+    </View>
+    // </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#121212",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -67,7 +69,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "white"
+    color: "white",
+    fontFamily:"monospace"
   },
   image: {
     width: 200,
@@ -82,18 +85,18 @@ const styles = StyleSheet.create({
   },
   textButton: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "500",
     textAlign: "center",
-    color: "white"
+    color: "white",
+    fontFamily:"monospace"
   },
   button: {
-    width: 150,
-    height: "auto",
+    width: 180,
     padding: 5,
     borderWidth: 2,
     borderRadius: 16,
     textAlign: "center",
-    backgroundColor: "rgba(126, 160, 252, 0.76)",
+    backgroundColor: "#333333",
   },
 
 });  

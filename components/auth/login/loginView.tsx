@@ -2,56 +2,88 @@ import { Link, router, useRouter } from "expo-router";
 import { AppState, Alert, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Button, Pressable } from "react-native";
 import React, { useState } from 'react'
 import { auth, firebase_db } from "@/lib/firebase";
-import { signInWithEmailAndPassword, User } from "firebase/auth";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { signInWithEmailAndPassword, User, signOut } from "firebase/auth"; // Importa signOut
+import { collection, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
+import { userType } from "@/components/users/user";
 
 export function LoginView() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [usuario, setUsuario] = useState<User | null>(null);
-
-  // Create a new user document with some data
-  const newUser = {
-    email: email,
-  };
-  // Get a reference to a collection (replace 'yourCollection' with your collection name)
-  const usersRef = collection(firebase_db, 'users');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function signInWithEmail() {
     try {
-      setLoading(true)
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      setLoading(true);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       if (!user) {
         Alert.alert("Error", "No se pudo autenticar el usuario.");
         return;
-      }     
+      }
 
-      Alert.alert("Datos correctos, bienvenido")
-      setEmail("")
-      setPassword("");
-      router.replace("/(home)/homeScreen")
+      const q = query(collection(firebase_db, "users"), where("correo", "==", email));
+      const querySnapshot = await getDocs(q);
 
-    } catch (error) {
+      if (querySnapshot.empty) {
+        Alert.alert("Error", "Usuario no encontrado en Firestore.");
+        return;
+      }
+
+      const userData = querySnapshot.docs[0].data();
+
+      // Función para cerrar la sesión del usuario
+      const signTheOutUser = async () => {
+        try {
+          await signOut(auth);
+          Alert.alert("Acceso denegado", "Tu sesión ha sido cerrada.");
+        } catch (error: any) {
+          console.error("Error al cerrar la sesión:", error);
+          Alert.alert("Error", "No se pudo cerrar la sesión. Contacta al soporte.");
+        }
+      };
+
+      if (!userData.casilleroHuellas || userData.admin == true) {
+        Alert.alert("Acceso denegado", "Tu cuenta no tiene un casillero asignado o eres un administrador");
+        signTheOutUser();
+        return;
+      }
+
+      if (userData.casilleroHuellas != 1 && userData.casilleroHuellas != 2) {
+        Alert.alert("El casillero no existe");
+        signTheOutUser();
+        return;
+      } else {
+        console.log("HOLAA");
+
+        console.log(userData.casilleroHuellas);
+        //Alert.alert("Datos correctos", "Bienvenido a tu casillero movil");
+        setEmail("");
+        setPassword("");
+        router.replace("/(home)/homeScreen");
+      }
+
+    } catch (error: any) {
       console.log(`Error ${error}`);
-      Alert.alert("Error", "Correo o contraseña incorrectos");
+      if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+        Alert.alert("Error", "Correo o contraseña incorrectos");
+      } else {
+        Alert.alert(`Error, Ocurrió un error: ${error.message}`);
+      }
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <ImageBackground style={styles.content} resizeMode="cover" source={require("../../../assets/images/fondoIniSes.jpeg")}>
+    // <ImageBackground style={styles.content} resizeMode="cover" source={require("../../../assets/images/fondoIniSes.jpeg")}>
+    <View style={styles.content}>
       <View style={styles.cajaIni}>
         <Image source={require("../../../assets/images/logo.png")} style={styles.imgLogo} resizeMode="cover" />
         <View style={styles.spaceContent}>
           <View style={styles.apartado}>
             <Text style={styles.label}>Correo:</Text>
             <TextInput
-              //label="Email"
-              //leftIcon={{ type: 'font-awesome', name: 'envelope' }}
               style={styles.input}
               onChangeText={(text) => setEmail(text)}
               value={email}
@@ -62,8 +94,6 @@ export function LoginView() {
           <View style={styles.apartado}>
             <Text style={styles.label}>Contraseña:</Text>
             <TextInput
-              //label="Password"
-              //leftIcon={{ type: 'font-awesome', name: 'lock' }}
               style={styles.input}
               onChangeText={(text) => setPassword(text)}
               value={password}
@@ -83,8 +113,10 @@ export function LoginView() {
             <Text style={styles.botonText} >Iniciar sesión</Text>
           </TouchableOpacity>
         </View>
+
       </View>
-    </ImageBackground>
+    </View>
+    // </ImageBackground>
   );
 }
 
@@ -94,7 +126,7 @@ const styles = StyleSheet.create({
     height: "100%",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#121212",
   },
   container: {
     marginTop: 40,
@@ -110,15 +142,19 @@ const styles = StyleSheet.create({
   },
   cajaIni: {
     width: "70%",
-    height: "60%",
-    padding: 10,
+    height: "auto",
+    padding: 30,
     justifyContent: "center",
     alignItems: "center",
     gap: 50,
+    backgroundColor: "#1e1e1e",
+    borderRadius:16,
+    borderColor:"white",
+    borderWidth:.2
   },
   input: {
     borderColor: "white",
-    borderWidth: 2,
+    borderWidth: 1,
     borderRadius: 16,
     padding: 4,
     paddingLeft: 7,
@@ -135,6 +171,7 @@ const styles = StyleSheet.create({
   spaceContent: {
     gap: 20,
     width: "80%",
+
   },
   apartado: {
     gap: 7,
@@ -145,14 +182,13 @@ const styles = StyleSheet.create({
     fontFamily: "monospace",
     color: "white"
   },
-  recuperar:{
-    textAlign:"center",
-    fontSize:10,
-    fontFamily:"monospace",
-    color:"blue",
-    borderBottomColor:"blue",
-    borderBottomWidth:0.2,
-    marginTop:8
+  recuperar: {
+    textAlign: "center",
+    fontSize: 10,
+    fontFamily: "monospace",
+    color: "gray",
+    marginTop: 8,
+    textDecorationLine:"underline"
   },
   botonIniSes: {
     width: 200,
@@ -168,5 +204,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "monospace"
   },
+  text: {
+    textAlign: "center",
+    fontSize: 12,
+    fontFamily: "monospace",
+  }
 });
-

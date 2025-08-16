@@ -7,7 +7,6 @@ import { auth } from '@/lib/firebase'
 import { firebase_db } from '@/lib/firebase' // Your Firebase initialization
 import { Link } from 'expo-router'
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { HoverEffect } from 'react-native-gesture-handler'
 
 export function ProfileView() {
   const [loading, setLoading] = useState(true)
@@ -17,53 +16,56 @@ export function ProfileView() {
   const logout = () => {
     setName("")
     setUser(null)
-    
+
     signOut(auth)
   }
 
-  /*     if (user) {
-      // El usuario está autenticado
-      console.log("Usuario autenticado:", user.uid); // UID del usuario
-      console.log("Email del usuario:", user.email); // Email del usuario (si está disponible)
-      console.log("Nombre del usuario autenticado: ", user.displayName);
-      
-      // ... otras propiedades del usuario (displayName, photoURL, etc.) ...
-  
-      // Ahora puedes usar el UID (user.uid) para acceder a la información del usuario en tu base de datos (Firestore, Realtime Database, etc.)
-      } else {
-      // El usuario no está autenticado
-      console.log("Usuario no autenticado");
-      } */
+  // Ahora buscamos el documento por el campo 'email'
+  async function getUserDocumentId(email: string) {
+    try {
+      const usersRef = collection(firebase_db, 'users');
+      const q = query(usersRef, where('correo', '==', email)); // Buscamos por email
+      const querySnapshot = await getDocs(q);
 
-  /*     async function getUserDocumentId(email: string) {
-          try {
-              const usersRef = collection(firebase_db, 'users'); // Nombre de tu colección en Firestore
-              const q = query(usersRef, where('email', '==', email));
-              const querySnapshot = await getDocs(q);
-  
-              if (!querySnapshot.empty) {
-                  const userDoc = querySnapshot.docs[0]; // Tomamos el primer documento que coincida
-                  return userDoc.id;
-              } else {
-                  throw new Error('No se encontró el usuario en Firestore');
-              }
-          } catch (error) {
-              console.error('Error buscando el documento:', error);
-              return null;
-          }
-      } */
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        return userDoc.id;
+      } else {
+        throw new Error('No se encontró el usuario en Firestore');
+      }
+    } catch (error) {
+      console.error('Error buscando el documento:', error);
+      return null;
+    }
+  }
 
   const saveProfile = async () => {
     if (!auth.currentUser) return;
+
     try {
+      // 1. Actualizar el nombre en Firebase Authentication
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: "https://example.com/jane-q-user/profile.jpg",
       });
-      Alert.alert("Datos actualizados correctamente")
 
-    } catch (error) {
-      Alert.alert(`Error: ${error}`);
+      // Usamos el email para buscar el documento en la colección 'users'
+      const userDocId = await getUserDocumentId(auth.currentUser.email!);
+
+      if (userDocId) {
+        // 3. Actualizar el nombre en la colección "users" en Firestore
+        const userDocRef = doc(firebase_db, 'users', userDocId);
+        await updateDoc(userDocRef, {
+          nombre: name, 
+        });
+        Alert.alert("Datos actualizados correctamente")
+
+      } else {
+        Alert.alert('No se pudo encontrar el documento del usuario en Firestore.');
+      }
+
+    } catch (error: any) {
+      Alert.alert(`Error: ${error.message}`);
+      console.error("Error al actualizar el perfil:", error);
     }
   };
 
@@ -82,7 +84,7 @@ export function ProfileView() {
           <Text style={styles.title}>Datos del usuario</Text>
         </View>
         <View>
-          <View>
+          <View style={{ marginBottom: 10 }}>
             <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.contentInput}
@@ -97,7 +99,7 @@ export function ProfileView() {
             <TextInput
               style={styles.contentInput}
               placeholder="Sin nombre"
-              value={name || ''}
+              value={name}
               onChangeText={(text) => setName(text)} />
           </View>
 
@@ -137,7 +139,7 @@ const styles = StyleSheet.create(
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "black"
+      backgroundColor: "#121212",
     },
     contentTitle: {
       width: "auto",
@@ -146,16 +148,19 @@ const styles = StyleSheet.create(
     title: {
       fontSize: 22,
       fontWeight: "500",
+      color: "white",
+      fontFamily: "monospace"
     },
     spcae: {
       width: "90%",
       height: "60%",
       borderRadius: 16,
-      borderWidth: 2,
+      borderWidth: .2,
+      borderColor: "white",
       padding: 15,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "rgb(242, 255, 253)"
+      backgroundColor: "#1e1e1e",
     },
     spaceContent: {
       width: "80%",
@@ -164,10 +169,13 @@ const styles = StyleSheet.create(
       gap: 3,
     },
     contentInput: {
-      fontSize: 16,
+      fontSize: 14,
       borderBottomColor: "gray",
       borderBottomWidth: 2,
       backgroundColor: "rgb(242, 241, 241)",
+      borderRadius: 16,
+      paddingLeft: 7,
+      fontFamily: "monospace",
     },
     label: {
       fontSize: 18,
@@ -199,10 +207,10 @@ const styles = StyleSheet.create(
       borderWidth: 2,
     },
     botonActualizar: {
-      backgroundColor: "rgb(221, 233, 255)"
+      backgroundColor: "#bfc2c5"
     },
     botonCerrar: {
-      backgroundColor: "rgb(255, 208, 188)"
+      backgroundColor: "#9c27b0"
     },
     textBoton: {
       fontSize: 14,
@@ -213,8 +221,6 @@ const styles = StyleSheet.create(
       width: "50%",
       height: "auto",
       padding: 5,
-      borderBottomWidth: 2,
-      borderBottomColor: "gray",
       textAlign: "center",
       // backgroundColor: "rgba(126, 160, 252, 0.76)",
     },
@@ -222,8 +228,9 @@ const styles = StyleSheet.create(
       fontSize: 12,
       fontWeight: "bold",
       textAlign: "center",
-      color: "blue",
-
+      color: "gray",
+      textDecorationLine: "underline",
+      fontFamily: "monospace"
     },
   }
 )

@@ -20,30 +20,29 @@ export function LogsView() {
         Alert.alert("No hay un usuario autenticado");
       }
     });
-  
+
     return () => unsubscribeAuth();
   }, []);
-  
-  const fetchUserLogs = (uid: string) => {
-    try {
-      const q = query(collection(firebase_db, "logs"), where("usuario_id", "==", uid));
 
-      return onSnapshot(q, (querySnapshot) => {
-        const records: LogType[] = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          casillero: doc.data().casillero || "Desconocido",
-          nombre: doc.data().nombre || "Sin nombre",
-          usuario_id: doc.data().usuario_id || "Sin usuario",
-          date: new Date(doc.data().fecha?.seconds * 1000 || 0),
-        }));
-        setLogs(records);
-      });
-    } catch (error) {
-      console.error("Error al obtener registros:", error);
-      setLogs([]);
-    }
-  };
-  
+    const fetchUserLogs = (uid: string) => {
+      try {
+        const q = query(collection(firebase_db, "logs"), where("usuario_id", "==", uid));
+
+        return onSnapshot(q, (querySnapshot) => {
+          const records: LogType[] = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            casillero: doc.data().casillero || "Desconocido",
+            nombre: doc.data().nombre || "Sin nombre",
+            usuario_id: doc.data().usuario_id || "Sin usuario",
+            date: new Date(doc.data().fecha?.seconds * 1000 || 0),
+          }));
+          setLogs(records); 
+        });
+      } catch (error) {
+        console.error("Error al obtener registros:", error);
+        setLogs([]);
+      }
+    };
 
 
   const borrarDocumento = async (documentId: string) => {
@@ -80,12 +79,13 @@ export function LogsView() {
           <Text style={[styles.cell, styles.header]}>Casillero</Text>
           <Text style={[styles.cell, styles.header]}>Fecha</Text>
         </View>
-        
+
         <FlatList
           data={logs}
           renderItem={renderLogs}
           keyExtractor={(item) => item.id}
-        /><Text style={styles.textConsejo}>Presiona el registro para borrar</Text>
+        />
+        <Text style={styles.textConsejo}>Presiona el registro para borrar</Text>
       </View>
     </SafeAreaView>
   );
@@ -95,13 +95,15 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "#121212",
     paddingBottom: 100,
     padding: 5,
   },
   header: {
     fontWeight: "bold",
-    backgroundColor: "#f1f1f1",
+    color:"white",
+    backgroundColor: " rgb(51, 51, 51)",
+    fontFamily:"monospace"
   },
   container: {
     margin: 10,
@@ -110,34 +112,37 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     width: "95%",
-    marginBottom:10,
+    marginBottom: 10,
   },
   title: {
-    fontSize: 24,
+    marginTop:10,
+    fontSize: 22,
     textAlign: "center",
     fontWeight: "bold",
     paddingBottom: 5,
-    paddingTop: 0,
     color: "white",
+    fontFamily:"monospace"
   },
   row: {
     flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "gray",
-    backgroundColor: "rgb(217, 246, 253)",
-    justifyContent:"center",
-    alignItems:"center",
+    backgroundColor: "#2a2a2a",
+    justifyContent: "center",
+    alignItems: "center",
   },
   cell: {
     flex: 1,
     padding: 8,
     textAlign: "center",
+    color:"white",
+    fontFamily:"monospace",
   },
-  textConsejo:{
-    color:"black", 
-    textAlign:"center", 
-    fontSize:16, 
-    fontFamily:"monospace", 
-    backgroundColor:"#f1f1f1"
+  textConsejo: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 16,
+    fontFamily: "monospace",
+    backgroundColor: "rgb(51, 51, 51)",
   },
 });

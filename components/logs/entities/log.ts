@@ -3,7 +3,6 @@ export type LogType = {
     casillero: number;
     date: Date;
     nombre: string;
-    usuario_id: string     //ToDo referencia
-
+    usuario_id: string  
 }
 

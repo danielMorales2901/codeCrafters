@@ -63,11 +63,12 @@ export default function Layout() {
       <Drawer
         screenOptions={{
           drawerStyle: { backgroundColor: '#1E1E1E' },
-          drawerLabelStyle: { color: 'white' },
+          drawerLabelStyle: { color: 'white', fontFamily:"monospace" },
           drawerActiveTintColor: '#FFA500',
           drawerInactiveTintColor: '#FFFFFF',
-          headerStyle: { backgroundColor: '#222222' },
+          headerStyle: { backgroundColor: '#222222', },
           headerTintColor: 'white',
+          headerTitleStyle:{fontFamily:"monospace"}
         }}
       >
 
@@ -76,6 +77,7 @@ export default function Layout() {
           options={{
             drawerLabel: 'Menú',
             title: 'Menú',
+            
             drawerIcon: ({ color }) => (
               <MaterialIcons size={28} name="home" color={color} />
             ),
@@ -112,8 +114,19 @@ export default function Layout() {
           }}
         />
         <Drawer.Screen
+          name="info/index"
+          options={{
+            drawerLabel: 'Acerca de',
+            title: 'Acerca de',
+            drawerIcon: ({ color }) => (
+              <MaterialIcons size={28} name="info-outline" color={color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
           name="auth/login"
           options={{
+            drawerLabel: 'Inicio de sesión',
             title: "Inicio de sesión",
             drawerItemStyle: { display: 'none' }
           }}
@@ -121,10 +134,12 @@ export default function Layout() {
         <Drawer.Screen
           name="changePass/change"
           options={{
+            drawerLabel: 'Cambiar contraseña',
             title: "Cambiar contraseña",
             drawerItemStyle: { display: 'none' }
           }}
         />
+
         <Drawer.Screen
           name="+not-found"
           options={{
