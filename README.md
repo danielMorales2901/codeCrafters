@@ -42,6 +42,7 @@ npx expo start
 ```
 
 📁 Estructura del Proyecto
+
 <img width="507" height="299" alt="image" src="https://github.com/user-attachments/assets/ee6c0e4d-cf8b-4842-aabe-914af481d7d4" />
 
 
