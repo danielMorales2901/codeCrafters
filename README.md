@@ -51,11 +51,13 @@ npx expo start
 - Desarrollo de la aplicación web
 - Desarrollo de la aplicación móvil (este repositorio)
 - Integración y pruebas del sistema completo
+
 📈 Resultados Esperados
 - Alta eficiencia en la autenticación biométrica
 - Interfaz intuitiva para gestión de usuarios
 - Posibilidad de escalar el sistema a más casilleros
 - Implementación de respaldo energético para mayor confiabilidad
+
 📚 Documentación Técnica
 Este proyecto fue documentado en el reporte técnico titulado:
 Safe Touch: Sistema de Apertura Biométrica por Huella Dactilar
