@@ -44,15 +44,25 @@ npx expo start
 📁 Estructura del Proyecto
 codeCrafters/
 ├── app/              # Tu código principal va aquí
+
 ├── app-example/      # Ejemplo de implementación funcional
+
 ├── components/       # Componentes reutilizables
+
 ├── constants/        # Constantes globales
+
 ├── hooks/            # Custom hooks
+
 ├── lib/              # Funciones auxiliares
+
 ├── assets/           # Imágenes y recursos
+
 ├── scripts/          # Scripts personalizados
+
 ├── .idea/            # Configuración del IDE
+
 ├── package.json      # Dependencias y scripts
+
 └── tsconfig.json     # Configuración de TypeScript
 
 
