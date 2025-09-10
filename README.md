@@ -1,50 +1,82 @@
-# Welcome to your Expo app 👋
+# 🔐 Safe Touch
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Safe Touch** es un sistema de apertura de casilleros basado en autenticación biométrica por huella dactilar. Este proyecto fue desarrollado como parte de una iniciativa académica en la Universidad Tecnológica de Izúcar de Matamoros, con el objetivo de ofrecer una solución segura, eficiente y moderna para el acceso a espacios de almacenamiento.
 
-## Get started
+> ⚠️ **Nota:** Este repositorio contiene únicamente la aplicación móvil desarrollada con Expo como parte del sistema *Safe Touch*. No incluye el código del microcontrolador, la aplicación web ni el hardware físico.
 
-1. Install dependencies
+## 🎯 Objetivo del Proyecto
 
-   ```bash
-   npm install
-   ```
+Diseñar e implementar un sistema de acceso seguro que elimine el uso de llaves físicas o contraseñas vulnerables, utilizando biometría como método principal de autenticación.
 
-2. Start the app
+## 🧩 Componentes del Sistema
 
-   ```bash
-    npx expo start
-   ```
+- **Módulo biométrico**: Sensor de huella dactilar (AS608) conectado a una placa Arduino Uno R3.
+- **Casilleros físicos**: Compartimentos metálicos controlados electrónicamente.
+- **Aplicación web**: Interfaz para la gestión de usuarios, monitoreo de accesos y control remoto del sistema.
+- **Aplicación móvil**: Prototipo desarrollado con Expo para interacción y visualización desde dispositivos móviles (contenido de este repositorio).
 
-In the output, you'll find options to open the app in a
+## ⚙️ Tecnologías Utilizadas
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Expo + React Native** (aplicación móvil)
+- **TypeScript**
+- **Arduino Uno R3** (hardware)
+- **Sensor biométrico AS608**
+- **HTML, CSS, JavaScript** (aplicación web)
+- **Node.js / Express** (backend sugerido)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🚀 Características Principales
 
-## Get a fresh project
+- Registro de hasta **50 huellas dactilares únicas**
+- Apertura de casilleros en **menos de 2 segundos**
+- **Monitoreo en tiempo real** desde la aplicación web
+- Arquitectura modular para facilitar la escalabilidad
 
-When you're ready, run:
+## 🛠️ Instalación de la App Móvil
 
-```bash
-npm run reset-project
+```
+bash
+git clone https://github.com/danielMorales2901/codeCrafters.git
+cd codeCrafters
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+📁 Estructura del Proyecto
+codeCrafters/
+├── app/              # Tu código principal va aquí
+├── app-example/      # Ejemplo de implementación funcional
+├── components/       # Componentes reutilizables
+├── constants/        # Constantes globales
+├── hooks/            # Custom hooks
+├── lib/              # Funciones auxiliares
+├── assets/           # Imágenes y recursos
+├── scripts/          # Scripts personalizados
+├── .idea/            # Configuración del IDE
+├── package.json      # Dependencias y scripts
+└── tsconfig.json     # Configuración de TypeScript
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
+🧪 Fases del Desarrollo
+- Diseño y configuración del módulo biométrico
+- Desarrollo de la aplicación web
+- Desarrollo de la aplicación móvil (este repositorio)
+- Integración y pruebas del sistema completo
+📈 Resultados Esperados
+- Alta eficiencia en la autenticación biométrica
+- Interfaz intuitiva para gestión de usuarios
+- Posibilidad de escalar el sistema a más casilleros
+- Implementación de respaldo energético para mayor confiabilidad
+📚 Documentación Técnica
+Este proyecto fue documentado en el reporte técnico titulado:
+Safe Touch: Sistema de Apertura Biométrica por Huella Dactilar
+Autores: Josué López Herrera, Daniel Olivares Morales, Moisés Emmanuel Castillo Arias
+Universidad Tecnológica de Izúcar de Matamoros
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+🤝 Créditos
+Desarrollado por estudiantes de TI-DSM:
+- Josué López Herrera – Programación de microcontroladores
+- Daniel Olivares Morales – Integración de hardware y desarrollo móvil
+- Moisés Emmanuel Castillo Arias – Desarrollo web y gestión de proyectos
+📄 Licencia
+Este proyecto está bajo la licencia MIT.
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
