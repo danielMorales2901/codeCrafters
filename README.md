@@ -41,35 +41,35 @@ npm install
 npx expo start
 ```
 
-📁 Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 <img width="507" height="299" alt="image" src="https://github.com/user-attachments/assets/ee6c0e4d-cf8b-4842-aabe-914af481d7d4" />
 
 
-🧪 Fases del Desarrollo
+## 🧪 Fases del Desarrollo
 - Diseño y configuración del módulo biométrico
 - Desarrollo de la aplicación web
 - Desarrollo de la aplicación móvil (este repositorio)
 - Integración y pruebas del sistema completo
 
-📈 Resultados Esperados
+## 📈 Resultados Esperados
 - Alta eficiencia en la autenticación biométrica
 - Interfaz intuitiva para gestión de usuarios
 - Posibilidad de escalar el sistema a más casilleros
 - Implementación de respaldo energético para mayor confiabilidad
 
-📚 Documentación Técnica
+## 📚 Documentación Técnica
 Este proyecto fue documentado en el reporte técnico titulado:
 Safe Touch: Sistema de Apertura Biométrica por Huella Dactilar
 Autores: Josué López Herrera, Daniel Olivares Morales, Moisés Emmanuel Castillo Arias
 Universidad Tecnológica de Izúcar de Matamoros
 
-🤝 Créditos
+## 🤝 Créditos
 Desarrollado por estudiantes de TI-DSM:
 - Josué López Herrera – Programación de microcontroladores
 - Daniel Olivares Morales – Integración de hardware y desarrollo móvil
 - Moisés Emmanuel Castillo Arias – Desarrollo web y gestión de proyectos
 
-📄 Licencia
+## 📄 Licencia
 Este proyecto está bajo la licencia MIT.
 
