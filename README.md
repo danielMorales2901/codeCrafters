@@ -77,6 +77,7 @@ Desarrollado por estudiantes de TI-DSM:
 - Josué López Herrera – Programación de microcontroladores
 - Daniel Olivares Morales – Integración de hardware y desarrollo móvil
 - Moisés Emmanuel Castillo Arias – Desarrollo web y gestión de proyectos
+
 📄 Licencia
 Este proyecto está bajo la licencia MIT.
 
