@@ -7,7 +7,7 @@ export function Unlock() {
   const [isLoading, setIsLoading] = useState(false);
   const [userCasillero, setUserCasillero] = useState<number>(0); // Casillero asignado
 
-  const API_URL_ON = `http://192.168.0.115/rele?numero=${userCasillero}&estado=on`; // Cambia por la IP de tu máquina con la API
+  const API_URL_ON = `http://192.168.0.115/rele?numero=${userCasillero}&estado=on`; 
 
   // Función para enviar comandos a la API
   const controlarRele = async () => {
@@ -41,7 +41,7 @@ export function Unlock() {
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists()) {
           const data = userDoc.data();
-          setUserCasillero(data.casilleroHuellas); // Asume que el campo se llama "casillero"
+          setUserCasillero(data.casilleroHuellas); 
         } else {
           Alert.alert("Error", "No se encontró información del usuario.");
         }

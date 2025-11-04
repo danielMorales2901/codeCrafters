@@ -5,4 +5,3 @@ export type LogType = {
     nombre: string;
     usuario_id: string  
 }
-

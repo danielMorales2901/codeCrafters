@@ -14,7 +14,7 @@ export default function Layout() {
   const [user, setUser] = useState<User | null>(null);
 
   const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf')
+    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 
   // Monitorear el estado de autenticación
