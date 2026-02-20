@@ -1,10 +1,9 @@
-import { Link, router, useRouter } from "expo-router";
-import { AppState, Alert, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View, Button, Pressable } from "react-native";
-import React, { useState } from 'react'
+import { Link, router } from "expo-router";
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View, Pressable } from "react-native";
+import  { useState } from 'react'
 import { auth, firebase_db } from "@/lib/firebase";
-import { signInWithEmailAndPassword, User, signOut } from "firebase/auth"; // Importa signOut
-import { collection, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
-import { userType } from "@/components/users/user";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth"; // Importa signOut
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export function LoginView() {
   const [email, setEmail] = useState('');
@@ -57,7 +56,6 @@ export function LoginView() {
         console.log("HOLAA");
 
         console.log(userData.casilleroHuellas);
-        //Alert.alert("Datos correctos", "Bienvenido a tu casillero movil");
         setEmail("");
         setPassword("");
         router.replace("/(home)/homeScreen");

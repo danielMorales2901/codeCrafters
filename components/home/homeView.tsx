@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "white",
-    fontFamily:"monospace"
+    fontFamily: "monospace"
   },
   image: {
     width: 200,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
     color: "white",
-    fontFamily:"monospace"
+    fontFamily: "monospace"
   },
   button: {
     width: 180,

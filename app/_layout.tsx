@@ -2,7 +2,7 @@ import { SplashScreen, Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { Drawer } from 'expo-router/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useFonts } from "expo-font";

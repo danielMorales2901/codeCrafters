@@ -1,10 +1,10 @@
 //componente para perfil de usuario
 import { useState, useEffect } from 'react'
-import { StyleSheet, View, Alert, TextInput, Button, Text, Pressable } from 'react-native'
+import { StyleSheet, View, Alert, TextInput, Text, Pressable } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { signOut, updateProfile, User } from 'firebase/auth'
 import { auth } from '@/lib/firebase'
-import { firebase_db } from '@/lib/firebase' // Your Firebase initialization
+import { firebase_db } from '@/lib/firebase' 
 import { Link } from 'expo-router'
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 
